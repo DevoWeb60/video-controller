@@ -1,0 +1,84 @@
+@import "utils/reset";
+@import "utils/variables";
+@import "utils/mixins";
+
+body {
+    background: $bgColor;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+@import "utils/general";
+
+devo-video {
+    position: relative;
+    background: black;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 50%;
+    min-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+    &:hover .controls-container {
+        // opacity: 1;
+        bottom: 0px;
+    }
+}
+
+.controls-container {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    // opacity: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.5);
+    transition: 200ms ease-in-out;
+
+    .progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+    }
+
+    .controls-button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            @include rangeCustom(
+                ".volume-value",
+                $white,
+                15px,
+                1,
+                grey,
+                5px,
+                70px
+            );
+
+            .volume-container {
+                .volume-range {
+                    width: 0px;
+                    height: 27px;
+                    overflow: hidden;
+                    transition: 200ms ease-in-out;
+                }
+
+                &:hover .volume-range {
+                    width: 70px;
+                }
+            }
+        }
+    }
+}

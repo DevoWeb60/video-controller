@@ -1,0 +1,26 @@
+@mixin rangeCustom(
+    $selector,
+    $progressColor: red,
+    $thumbWidth: 20px,
+    $thumbScale: 0,
+    $bgColor: grey,
+    $heightRange: 5px,
+    $widthRange: 100%,
+    $defaultRangeWidth: 50%
+) {
+    #{$selector} {
+        width: $widthRange;
+        height: $heightRange;
+        background: $bgColor;
+        background-image: linear-gradient($progressColor, $progressColor);
+        background-size: $defaultRangeWidth 100%;
+        background-repeat: no-repeat;
+
+        &::-webkit-slider-thumb {
+            width: $thumbWidth;
+            height: $thumbWidth;
+            background: $progressColor;
+            transform: scale($thumbScale);
+        }
+    }
+}
