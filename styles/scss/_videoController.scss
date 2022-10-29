@@ -13,7 +13,6 @@ devo-video {
 
     &:hover .controls-container,
     video:hover + .controls-container {
-        // opacity: 1;
         bottom: 0px;
     }
 
@@ -30,7 +29,6 @@ devo-video {
         height: 50px;
         padding: 10px;
         z-index: 9999;
-        // opacity: 0;
         backdrop-filter: blur(10px);
         background: $backgroundControls;
         transition: 200ms ease-in-out;

@@ -2,14 +2,14 @@
 @import "utils/variables";
 @import "utils/mixins";
 
-// body {
-//     background: $bgBodyColor;
-//     color: $white;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     min-height: 100vh;
-// }
+body {
+    background: $bgBodyColor;
+    color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
 .container {
     width: 900px;

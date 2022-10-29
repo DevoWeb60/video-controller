@@ -3,7 +3,6 @@ export default class VideoController extends HTMLElement {
         super();
         this.innerHTML = this.getTemplate();
         this.styleSheet = this.querySelector("style");
-        console.log(this.styleSheet);
         // * VIDEO
         this.video = this.querySelector("video");
         // * CONTROLS
