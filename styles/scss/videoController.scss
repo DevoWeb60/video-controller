@@ -1,8 +1,12 @@
-devo-video {
+@import "utils/variables";
+@import "utils/mixins";
+@import "utils/general";
+
+:host {
     position: relative;
     font-family: Arial;
-    font-weight: bold;
     background: $bgDevoVideo;
+    aspect-ratio: 16/9;
     border-radius: 10px;
     overflow: hidden;
     width: 100%;
@@ -11,9 +15,17 @@ devo-video {
     color: $colorDevoVideo;
     display: flex;
 
-    &:hover .controls-container,
-    video:hover + .controls-container {
-        bottom: 0px;
+    video {
+        & + .controls-container:hover,
+        &:not(.fullscreen):hover + .controls-container {
+            bottom: 0px;
+        }
+    }
+
+    .fullscreen {
+        & + .controls-container {
+            bottom: -45px;
+        }
     }
 
     a {
@@ -39,7 +51,11 @@ devo-video {
             top: 0;
             left: 0;
             right: 0;
-            transform: translateY(-50%);
+            transform: translateY(-50.1%);
+
+            .progress-watching {
+                margin: 0;
+            }
         }
 
         .controls-button-container {
@@ -74,11 +90,21 @@ devo-video {
                         .volume-value {
                             margin-left: 10px;
                         }
+
+                        @media screen and (max-width: 1000px) {
+                            width: 80px;
+                        }
                     }
 
                     &:hover .volume-range {
                         width: 80px;
                     }
+                }
+            }
+            .right {
+                .duration-container {
+                    font-weight: bold;
+                    margin-right: 30px;
                 }
             }
         }

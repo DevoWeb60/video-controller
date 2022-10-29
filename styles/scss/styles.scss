@@ -1,20 +1,22 @@
-// @import "utils/reset";
-@import "utils/variables";
-@import "utils/mixins";
+@import "utils/reset";
+
+$bgBodyColor: #29504b;
+$white: #fff;
 
 body {
     background: $bgBodyColor;
     color: $white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
 .container {
-    width: 900px;
+    width: 1200px;
     margin: 20px auto;
-}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
 
-@import "utils/general";
-@import "videoController";
+    devo-video {
+        width: 48%;
+    }
+}

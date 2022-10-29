@@ -1,26 +1,31 @@
 export default class VideoController extends HTMLElement {
     constructor() {
         super();
-        this.innerHTML = this.getTemplate();
-        this.styleSheet = this.querySelector("style");
+        this.shadowDOM = this.attachShadow({ mode: "open" });
+        this.shadowDOM.innerHTML = this.getTemplate();
+        this.styleSheet = this.shadowDOM.querySelector("style");
+
         // * VIDEO
-        this.video = this.querySelector("video");
+        this.video = this.shadowDOM.querySelector("video");
+
         // * CONTROLS
-        this.controls = this.querySelector(".controls-container");
-        this.playButton = this.querySelector(".play");
-        this.pauseButton = this.querySelector(".pause");
+        this.controls = this.shadowDOM.querySelector(".controls-container");
+        this.playButton = this.shadowDOM.querySelector(".play");
+        this.pauseButton = this.shadowDOM.querySelector(".pause");
 
-        this.volumeOn = this.querySelector(".volume-on");
-        this.volumeOff = this.querySelector(".volume-off");
-        this.volumeValue = this.querySelector(".volume-value");
+        this.volumeOn = this.shadowDOM.querySelector(".volume-on");
+        this.volumeOff = this.shadowDOM.querySelector(".volume-off");
+        this.volumeValue = this.shadowDOM.querySelector(".volume-value");
 
-        this.progressWatching = this.querySelector(".progress-watching");
-        this.currentDuration = this.querySelector(".current-duration");
-        this.totalDuration = this.querySelector(".total-duration");
+        this.progressWatching =
+            this.shadowDOM.querySelector(".progress-watching");
+        this.currentDuration =
+            this.shadowDOM.querySelector(".current-duration");
+        this.totalDuration = this.shadowDOM.querySelector(".total-duration");
 
-        this.downloadButton = this.querySelector(".download");
-        this.fullscreenOn = this.querySelector(".fullscreen-on");
-        this.fullscreenOff = this.querySelector(".fullscreen-off");
+        this.downloadButton = this.shadowDOM.querySelector(".download");
+        this.fullscreenOn = this.shadowDOM.querySelector(".fullscreen-on");
+        this.fullscreenOff = this.shadowDOM.querySelector(".fullscreen-off");
 
         // * EVENTS
         this.init();
@@ -136,6 +141,9 @@ export default class VideoController extends HTMLElement {
     }
 
     setProgressWatchingValue(value) {
+        if (value === "NaN") {
+            value = "00";
+        }
         this.progressWatching.value = value;
         this.setBackgroundSize(this.progressWatching, value);
     }
@@ -143,7 +151,6 @@ export default class VideoController extends HTMLElement {
     isPlaying() {
         this.video.addEventListener("timeupdate", (e) => {
             const value = (this.video.currentTime / this.video.duration) * 100;
-            console.log(value);
             this.setProgressWatchingValue(value.toFixed(2));
             this.setDuration(this.currentDuration, this.video.currentTime);
             // this.setTotalDurationIfNotSetted();
@@ -160,12 +167,13 @@ export default class VideoController extends HTMLElement {
     }
 
     getTemplate() {
+        // <link rel="stylesheet" href="./styles/css/videoController.min.css" />
         return `
-        <style data="devo-video"></style>
+        <style data="devo-video">a{text-decoration:none;color:inherit}video{width:100%;height:100%;display:block}.hide{display:none}.flex-align{display:flex;align-items:center}svg{cursor:pointer;transition:200ms ease-in-out}svg:hover{transform:scale(1.1)}.video-range{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:100%;height:5px;background-color:#ffd6d6;background-image:linear-gradient(#ff2b2b, #ff2b2b);background-size:0% 100%;background-repeat:no-repeat;cursor:pointer}.video-range:hover::-webkit-slider-thumb{transform:scale(1)}.video-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;background:#ff2b2b;border-radius:50%;cursor:ew-resize;transform:scale(0);-webkit-transition:200ms ease-in-out;transition:200ms ease-in-out}.video-range::-webkit-slider-runnable-track{-webkit-appearance:none;appearance:none;background:none;border:none;box-shadow:none}:host{position:relative;font-family:Arial;background:#000;aspect-ratio:16/9;border-radius:10px;overflow:hidden;width:100%;min-width:250px;box-shadow:0 0 10px rgba(0,0,0,.5);color:#fff;display:flex}:host video+.controls-container:hover,:host video:not(.fullscreen):hover+.controls-container{bottom:0px}:host .fullscreen+.controls-container{bottom:-45px}:host a{text-decoration:none;color:inherit}:host .controls-container{position:absolute;bottom:-50px;left:0;width:100%;height:50px;padding:10px;z-index:9999;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background:rgba(0,0,0,.63);transition:200ms ease-in-out;box-sizing:border-box}:host .controls-container .progress-bar{position:absolute;top:0;left:0;right:0;transform:translateY(-50.1%)}:host .controls-container .progress-bar .progress-watching{margin:0}:host .controls-container .controls-button-container{display:flex;justify-content:space-between;align-items:center}:host .controls-container .controls-button-container .left,:host .controls-container .controls-button-container .right{display:flex;align-items:center;gap:15px}:host .controls-container .controls-button-container .left .volume-value{width:70px;height:5px;background:#fff;background-image:linear-gradient(#ff2b2b, #ff2b2b);background-size:50% 100%;background-repeat:no-repeat}:host .controls-container .controls-button-container .left .volume-value::-webkit-slider-thumb{width:15px;height:15px;background:#ff2b2b;transform:scale(1)}:host .controls-container .controls-button-container .left .volume-container .volume-range{width:0px;height:27px;overflow:hidden;transition:200ms ease-in-out}:host .controls-container .controls-button-container .left .volume-container .volume-range .volume-value{margin-left:10px}@media screen and (max-width: 1000px){:host .controls-container .controls-button-container .left .volume-container .volume-range{width:80px}}:host .controls-container .controls-button-container .left .volume-container:hover .volume-range{width:80px}:host .controls-container .controls-button-container .right .duration-container{font-weight:bold;margin-right:30px}/*# sourceMappingURL=videoController.min.css.map */</style>
         <video src="#"></video>
         <div class="controls-container">
             <div class="progress-bar">
-                <input type="range" class="progress-watching video-range" value="0" max="100" step="0.01"/>
+                <input type="range" class="progress-watching video-range" value="0" step="0.01"/>
             </div>
             <div class="controls-button-container">
                 <div class="left">
@@ -174,9 +182,9 @@ export default class VideoController extends HTMLElement {
                         <svg class="pause hide" width="32" height="32" viewBox="0 0 16 16"> <path fill="currentColor" d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" /> </svg>
                     </div>
                     <div class="volume-container flex-align">
-                        <svg class="volume-on" width="32" height="32" viewBox="0 0 24 24" > <path fill="currentColor" d="M14 20.725v-2.05q2.25-.65 3.625-2.5t1.375-4.2q0-2.35-1.375-4.2T14 5.275v-2.05q3.1.7 5.05 3.137Q21 8.8 21 11.975q0 3.175-1.95 5.612q-1.95 2.438-5.05 3.138ZM3 15V9h4l5-5v16l-5-5Zm11 1V7.95q1.175.55 1.838 1.65q.662 1.1.662 2.4q0 1.275-.662 2.362Q15.175 15.45 14 16Z" />
+                        <svg class="volume-on" width="25" height="25" viewBox="0 0 24 24" > <path fill="currentColor" d="M14 20.725v-2.05q2.25-.65 3.625-2.5t1.375-4.2q0-2.35-1.375-4.2T14 5.275v-2.05q3.1.7 5.05 3.137Q21 8.8 21 11.975q0 3.175-1.95 5.612q-1.95 2.438-5.05 3.138ZM3 15V9h4l5-5v16l-5-5Zm11 1V7.95q1.175.55 1.838 1.65q.662 1.1.662 2.4q0 1.275-.662 2.362Q15.175 15.45 14 16Z" />
                         </svg>
-                        <svg class="volume-off hide" width="32" height="32" viewBox="0 0 24 24" > <path fill="currentColor" d="m19.8 22.6l-3.025-3.025q-.625.4-1.325.688q-.7.287-1.45.462v-2.05q.35-.125.688-.25q.337-.125.637-.3L12 14.8V20l-5-5H3V9h3.2L1.4 4.2l1.4-1.4l18.4 18.4Zm-.2-5.8l-1.45-1.45q.425-.775.638-1.625q.212-.85.212-1.75q0-2.35-1.375-4.2T14 5.275v-2.05q3.1.7 5.05 3.137Q21 8.8 21 11.975q0 1.325-.362 2.55q-.363 1.225-1.038 2.275Zm-3.35-3.35L14 11.2V7.95q1.175.55 1.838 1.65q.662 1.1.662 2.4q0 .375-.062.738q-.063.362-.188.712ZM12 9.2L9.4 6.6L12 4Z" />
+                        <svg class="volume-off hide" width="25" height="25" viewBox="0 0 24 24" > <path fill="currentColor" d="m19.8 22.6l-3.025-3.025q-.625.4-1.325.688q-.7.287-1.45.462v-2.05q.35-.125.688-.25q.337-.125.637-.3L12 14.8V20l-5-5H3V9h3.2L1.4 4.2l1.4-1.4l18.4 18.4Zm-.2-5.8l-1.45-1.45q.425-.775.638-1.625q.212-.85.212-1.75q0-2.35-1.375-4.2T14 5.275v-2.05q3.1.7 5.05 3.137Q21 8.8 21 11.975q0 1.325-.362 2.55q-.363 1.225-1.038 2.275Zm-3.35-3.35L14 11.2V7.95q1.175.55 1.838 1.65q.662 1.1.662 2.4q0 .375-.062.738q-.063.362-.188.712ZM12 9.2L9.4 6.6L12 4Z" />
                         </svg>
                         <div class="volume-range flex-align">
                             <input type="range" class="volume-value video-range" value="50"/>
@@ -189,10 +197,10 @@ export default class VideoController extends HTMLElement {
                         /
                         <span class="total-duration">00:00</span>
                     </div>
-                    <a href="#" download class="download hide flex-align">
-                        <svg width="32" height="27" viewBox="0 0 24 24"><path fill="currentColor" d="M14.225 21.75q-.5.125-.875-.2t-.375-.9q0-.275.213-.513q.212-.237.487-.312q.7-.175 1.363-.438q.662-.262 1.262-.662q.275-.175.575-.15q.3.025.5.225q.4.4.363.912q-.038.513-.488.788q-.7.425-1.462.738q-.763.312-1.563.512Zm4.6-4.375q-.2-.2-.238-.512q-.037-.313.138-.563q.375-.6.65-1.263q.275-.662.425-1.362q.075-.3.325-.5t.55-.2q.55 0 .863.4q.312.4.187.9q-.2.8-.512 1.55q-.313.75-.738 1.45q-.275.425-.762.462q-.488.038-.888-.362Zm1.825-6.4q-.275 0-.525-.2t-.325-.5q-.15-.7-.425-1.363q-.275-.662-.65-1.262q-.175-.25-.138-.575q.038-.325.238-.525q.375-.4.875-.35q.5.05.775.475q.45.7.763 1.45q.312.75.512 1.55q.125.5-.2.9t-.9.4ZM9.725 21.725q-3.35-.8-5.525-3.5q-2.175-2.7-2.175-6.25T4.2 5.725q2.175-2.7 5.55-3.5q.5-.125.875.2T11 3.3q0 .275-.212.512q-.213.238-.488.313q-2.75.625-4.512 2.8q-1.763 2.175-1.763 5.05t1.763 5.05q1.762 2.175 4.487 2.8q.275.075.488.312q.212.238.212.538q0 .55-.375.863q-.375.312-.875.187ZM16.35 5.25q-.625-.4-1.275-.675q-.65-.275-1.375-.45q-.275-.075-.487-.313Q13 3.575 13 3.275q0-.55.375-.875q.375-.325.875-.2q.8.2 1.562.512q.763.313 1.463.738q.45.275.5.787q.05.513-.35.913q-.2.2-.512.225q-.313.025-.563-.125Zm-4.375 11.325q-.2 0-.375-.075t-.325-.2L7.65 12.65q-.275-.275-.275-.7q0-.425.3-.725q.275-.275.7-.275q.425 0 .725.275l1.875 1.9V8q0-.425.288-.713Q11.55 7 11.975 7t.713.287q.287.288.287.713v5.125l1.85-1.85q.3-.3.725-.3t.725.3q.3.3.287.725q-.012.425-.312.725L12.675 16.3q-.125.125-.312.2q-.188.075-.388.075Z"/></svg>
+                    <a href="#" download class="download hide">
+                        <svg width="27" height="27" viewBox="0 0 24 24"><path fill="currentColor" d="M14.225 21.75q-.5.125-.875-.2t-.375-.9q0-.275.213-.513q.212-.237.487-.312q.7-.175 1.363-.438q.662-.262 1.262-.662q.275-.175.575-.15q.3.025.5.225q.4.4.363.912q-.038.513-.488.788q-.7.425-1.462.738q-.763.312-1.563.512Zm4.6-4.375q-.2-.2-.238-.512q-.037-.313.138-.563q.375-.6.65-1.263q.275-.662.425-1.362q.075-.3.325-.5t.55-.2q.55 0 .863.4q.312.4.187.9q-.2.8-.512 1.55q-.313.75-.738 1.45q-.275.425-.762.462q-.488.038-.888-.362Zm1.825-6.4q-.275 0-.525-.2t-.325-.5q-.15-.7-.425-1.363q-.275-.662-.65-1.262q-.175-.25-.138-.575q.038-.325.238-.525q.375-.4.875-.35q.5.05.775.475q.45.7.763 1.45q.312.75.512 1.55q.125.5-.2.9t-.9.4ZM9.725 21.725q-3.35-.8-5.525-3.5q-2.175-2.7-2.175-6.25T4.2 5.725q2.175-2.7 5.55-3.5q.5-.125.875.2T11 3.3q0 .275-.212.512q-.213.238-.488.313q-2.75.625-4.512 2.8q-1.763 2.175-1.763 5.05t1.763 5.05q1.762 2.175 4.487 2.8q.275.075.488.312q.212.238.212.538q0 .55-.375.863q-.375.312-.875.187ZM16.35 5.25q-.625-.4-1.275-.675q-.65-.275-1.375-.45q-.275-.075-.487-.313Q13 3.575 13 3.275q0-.55.375-.875q.375-.325.875-.2q.8.2 1.562.512q.763.313 1.463.738q.45.275.5.787q.05.513-.35.913q-.2.2-.512.225q-.313.025-.563-.125Zm-4.375 11.325q-.2 0-.375-.075t-.325-.2L7.65 12.65q-.275-.275-.275-.7q0-.425.3-.725q.275-.275.7-.275q.425 0 .725.275l1.875 1.9V8q0-.425.288-.713Q11.55 7 11.975 7t.713.287q.287.288.287.713v5.125l1.85-1.85q.3-.3.725-.3t.725.3q.3.3.287.725q-.012.425-.312.725L12.675 16.3q-.125.125-.312.2q-.188.075-.388.075Z"/></svg>
                     </a>
-                    <div class="display-container">
+                    <div class="display-container flex-align">
                         <svg class="fullscreen-on" width="32" height="32" viewBox="0 0 24 24"> <path fill="currentColor" d="M6 19q-.425 0-.713-.288Q5 18.425 5 18v-3q0-.425.287-.713Q5.575 14 6 14t.713.287Q7 14.575 7 15v2h2q.425 0 .713.288q.287.287.287.712t-.287.712Q9.425 19 9 19Zm0-9q-.425 0-.713-.288Q5 9.425 5 9V6q0-.425.287-.713Q5.575 5 6 5h3q.425 0 .713.287Q10 5.575 10 6t-.287.713Q9.425 7 9 7H7v2q0 .425-.287.712Q6.425 10 6 10Zm9 9q-.425 0-.712-.288Q14 18.425 14 18t.288-.712Q14.575 17 15 17h2v-2q0-.425.288-.713Q17.575 14 18 14t.712.287Q19 14.575 19 15v3q0 .425-.288.712Q18.425 19 18 19Zm3-9q-.425 0-.712-.288Q17 9.425 17 9V7h-2q-.425 0-.712-.287Q14 6.425 14 6t.288-.713Q14.575 5 15 5h3q.425 0 .712.287Q19 5.575 19 6v3q0 .425-.288.712Q18.425 10 18 10Z" /> </svg>
                         <svg class="fullscreen-off hide" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6 16h2v2c0 .55.45 1 1 1s1-.45 1-1v-3c0-.55-.45-1-1-1H6c-.55 0-1 .45-1 1s.45 1 1 1zm2-8H6c-.55 0-1 .45-1 1s.45 1 1 1h3c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1s-1 .45-1 1v2zm7 11c.55 0 1-.45 1-1v-2h2c.55 0 1-.45 1-1s-.45-1-1-1h-3c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1zm1-11V6c0-.55-.45-1-1-1s-1 .45-1 1v3c0 .55.45 1 1 1h3c.55 0 1-.45 1-1s-.45-1-1-1h-2z"/></svg>
                     </div>
@@ -231,6 +239,7 @@ export default class VideoController extends HTMLElement {
         });
         this.checkAttribute("download", () => {
             this.downloadButton.classList.remove("hide");
+            this.downloadButton.classList.add("flex-align");
             this.downloadButton.href = this.video.src;
         });
     }
@@ -278,7 +287,7 @@ export default class VideoController extends HTMLElement {
         this.customizeElement("volumeThumbColor", "volume-value", "colorThumb");
         this.customizeElement("volumeThumbSize", "volume-value", "sizeThumb");
 
-        this.customizeElement("color", this, "color");
+        this.customizeElement("color", this.shadowDOM.host, "color");
         this.customizeElement("background", this.controls, "background");
     }
 

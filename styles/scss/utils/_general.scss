@@ -15,6 +15,11 @@ video {
 
 svg {
     cursor: pointer;
+    transition: 200ms ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 
 .video-range {
