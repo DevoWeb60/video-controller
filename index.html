@@ -8,7 +8,27 @@
         <title>Lecteur vidéo</title>
     </head>
     <body>
-        <devo-video src="./video/tupac.mp4"></devo-video>
+        <div class="container">
+            <devo-video
+                src="./video/tupac.mp4"
+                download
+                poster="https://generations.fr/media/news/tupac-une-nouvelle-recompense-de-100-000-dollars-pour-toute-information-sur-sa-mort_6322ce7b1401f.jpg"
+                color="#F3D9B1"
+                background="rgba(168,194,86, 0.5)"
+                progressColor="#A22522"
+                progressBackground="#C29979"
+                progressThumbColor="#A22522"
+                volumeColor="#A22522"
+                volumeBackground="#C29979"
+                volumeThumbColor="#A22522"
+            ></devo-video>
+            <!-- <devo-video src="./video/popcorn.mp4" download></devo-video> -->
+            <!-- <devo-video
+                src="./video/orelsan.mp4"
+                download
+                poster="https://www.gala.fr/imgre/fit/~1~gal~2022~10~26~bb65aef4-7c3d-4e43-bad8-b0d6012413b6.jpeg/1200x499/crop-from/top/focus-point/1828%2C1153/orelsan-ce-record-de-johnny-hallyday-qu-il-vient-d-egaler.jpg"
+            ></devo-video> -->
+        </div>
         <script src="./js/main.js" type="module"></script>
     </body>
 </html>

@@ -1,5 +1,20 @@
-$bgColor: #29504b;
+$bgBodyColor: #29504b;
 $white: #fff;
+
+$bgDevoVideo: black;
+$colorDevoVideo: #fff;
+$shadowDevoVideo: 0 0 10px rgba(0, 0, 0, 0.5);
+
+$progressColor: #ff2b2b;
+$progressBackground: #ffd6d6;
+
+$thumbColor: #ff2b2b;
+$thumbWidth: 20px;
+
+$volumeProgressColor: #ff2b2b;
+$volumeProgressBackground: #fff;
+
+$backgroundControls: rgba(0, 0, 0, 0.63);
 
 a {
     text-decoration: none;

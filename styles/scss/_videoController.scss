@@ -1,0 +1,88 @@
+devo-video {
+    position: relative;
+    font-family: Arial;
+    font-weight: bold;
+    background: $bgDevoVideo;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    min-width: 250px;
+    box-shadow: $shadowDevoVideo;
+    color: $colorDevoVideo;
+    display: flex;
+
+    &:hover .controls-container,
+    video:hover + .controls-container {
+        // opacity: 1;
+        bottom: 0px;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .controls-container {
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        padding: 10px;
+        z-index: 9999;
+        // opacity: 0;
+        backdrop-filter: blur(10px);
+        background: $backgroundControls;
+        transition: 200ms ease-in-out;
+        box-sizing: border-box;
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .controls-button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .left,
+            .right {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .left {
+                @include rangeCustom(
+                    ".volume-value",
+                    $volumeProgressColor,
+                    15px,
+                    1,
+                    $volumeProgressBackground,
+                    5px,
+                    70px
+                );
+
+                .volume-container {
+                    .volume-range {
+                        width: 0px;
+                        height: 27px;
+                        overflow: hidden;
+                        transition: 200ms ease-in-out;
+
+                        .volume-value {
+                            margin-left: 10px;
+                        }
+                    }
+
+                    &:hover .volume-range {
+                        width: 80px;
+                    }
+                }
+            }
+        }
+    }
+}
